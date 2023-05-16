@@ -1,15 +1,15 @@
 import random
 
-def getProverb():
+def getProverb(textfile = "proverbs.txt"):
     try:
-        with open("proverbs.txt", "r") as f:
+        with open(textfile, "r") as f:
             lines = f.readlines()
-        if lines:
-            a = random.choice(lines).strip()
-            return a
-        else:
-            print("Proverbs file is empty.")
-            return None
+            if lines:
+                a = random.choice(lines).strip()
+                return a
+            else:
+                print("Proverbs file is empty.")
+                return None
     except FileNotFoundError:
         print("Proverbs file not found.")
         return None
@@ -43,7 +43,7 @@ def checkAndChange(user_input, proverb, hidden, wrong, misses):
         ch = getChList(proverb, hidden)[0]
         hidden = editHidden(proverb, hidden, ch, letterReveal = True)
         wrong += 1
-    return wrong, hidden
+    return wrong, hidden, misses
 
 
 def editHidden(proverb, hidden, correct, letterReveal = False):
@@ -77,7 +77,7 @@ def main():
             printGame(hidden, wrong, maxReveals, misses)
             misses = []
             user_input = input("Guess: ")
-            wrong, hidden = checkAndChange(user_input, proverb, hidden, wrong, misses)
+            wrong, hidden, misses = checkAndChange(user_input, proverb, hidden, wrong, misses)
         if wrong >= maxReveals:
             print("You have lost this round.")
         else:
